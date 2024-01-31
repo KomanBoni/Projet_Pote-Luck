@@ -1,17 +1,48 @@
-import { useRouter } from 'next/router';
+// pages/profile/[id].tsx
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-export default function UserProfile() {
+interface User {
+  user_id: {
+    [key: string]: string;
+  };
+  Name: string;
+  Email: string;
+  Password: string;
+  Avatar: string;
+  DateCreation: string;
+  Address: string;
+  Regime: {
+    Vegan: boolean;
+    Vegetarian: boolean;
+    GlutenFree: boolean;
+    LactoseFree: boolean;
+    PorkFree: boolean;
+    EggFree: boolean;
+    NutsFree: boolean;
+    AlcoholFree: boolean;
+  };
+  Events: [];
+}
+
+const UserProfile: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     async function fetchUser() {
-      const response = await fetch('app/profile/[profile_name]/users.json');
-      const data = await response.json();
-      const userData = data.find((user) => user.user_id[id]);
-      setUser(userData);
+      try {
+        const response = await fetch('/user.json');
+        const data = await response.json();
+
+        // Utilisation de Object.values pour obtenir un tableau des valeurs des clés
+        const userData = data.find((user: User) => Object.values(user.user_id)[0] === id);
+
+        setUser(userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     }
 
     if (id) {
@@ -42,4 +73,6 @@ export default function UserProfile() {
       </ul>
     </div>
   );
-}
+};
+
+export default UserProfile;
