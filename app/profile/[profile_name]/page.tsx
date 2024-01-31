@@ -1,4 +1,4 @@
-// pages/profile/[id].tsx
+"use client"
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -25,10 +25,16 @@ interface User {
   Events: [];
 }
 
-const UserProfile: React.FC = () => {
-  const router = useRouter();
-  const { id } = router.query;
+const UserProfile = ({ params }: { params: { profile_name: string } }) => {
+//   const router = useRouter();
+
+  console.log({params})
+
+  const id = "12"
+//   const { id } = router.query;
   const [user, setUser] = useState<User | null>(null);
+
+  console.log("PLOP")
 
   useEffect(() => {
     async function fetchUser() {
