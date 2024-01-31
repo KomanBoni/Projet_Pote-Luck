@@ -1,7 +1,8 @@
-// chemin-vers-votre-composant/CreateEvent.tsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useEventContext } from './EventContext';
 
 const CreateEvent: React.FC = () => {
+  const { addEvent } = useEventContext();
   const [date, setDate] = useState<string>("");
   const [whatToBring, setWhatToBring] = useState<string>("");
   const [invitations, setInvitations] = useState<string[]>([]);
@@ -26,9 +27,8 @@ const CreateEvent: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Date:", date);
-    console.log("Ce qu'il faut ramener:", whatToBring);
-    console.log("Invitations:", invitations);
+    const eventDetails = `Date: ${date}, Ce qu'il faut ramener: ${whatToBring}, Invitations: ${invitations.join(', ')}`;
+    addEvent(eventDetails);
   };
 
   return (

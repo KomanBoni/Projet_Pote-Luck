@@ -1,13 +1,16 @@
 "use client"
-import React from "react";
-import CreateEvent from "../../components/CreateEvent" 
+import React from 'react';
+import { EventProvider } from '../../components/EventContext';
+import CreateEvent from '../../components/CreateEvent';
+import EventsPage from '../../components/EventPage';
 
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
   return (
-    <div>
+    <EventProvider>
       <CreateEvent />
-    </div>
+      <EventsPage />
+    </EventProvider>
   );
 };
 
-export default HomePage;
+export default Home;
